@@ -1,85 +1,37 @@
 import './TranslatePage.scss';
 import * as React from 'react';
 import { Container, Stack } from '@mui/material';
-import TabPanelFromLang from '../TabPanelFromLang/TabPanelFromLang';
-import TabPanelToLang from '../TabPanelToLang/TabPanelToLang';
 import Button from '@mui/material/Button';
-import { TextField } from "@mui/material"
 import { useRef } from 'react';
 import { MdOutlineContentCopy } from "react-icons/md";
-import Switch from '../Switch/Switch';
-import Tabs from '../Tabs/Tabs';
-import TextArea from '../TextArea/TextArea';
-
-const languages = [
-  {
-    language: 'English',
-    abbreviation: 'en'
-  },
-  {
-    language: 'Uzbek',
-    abbreviation: 'uz'
-  },
-  {
-    language: 'Russian',
-    abbreviation: 'ru'
-  },
-  {
-    language: 'Spanish',
-    abbreviation: 'es'
-  },
-  {
-    language: 'French',
-    abbreviation: 'fr'
-  },
-  {
-    language: 'German',
-    abbreviation: 'de'
-  },
-  {
-    language: 'Chinese',
-    abbreviation: 'zh'
-  },
-  {
-    language: 'Japanese',
-    abbreviation: 'ja'
-  },
-  {
-    language: 'Korean',
-    abbreviation: 'ko'
-  },
-  {
-    language: 'Arabic',
-    abbreviation: 'ar'
-  },
-  {
-    language: 'Portuguese',
-    abbreviation: 'pt'
-  },
-  {
-    language: 'Italian',
-    abbreviation: 'it'
-  },
-  {
-    language: 'Dutch',
-    abbreviation: 'nl'
-  },
-  {
-    language: 'Swedish',
-    abbreviation: 'sv'
-  },
-  {
-    language: 'Turkish',
-    abbreviation: 'tr'
-  },
-];
-
+import Tabs from '../../Components/Tabs/Tabs';
+import TextArea from '../../Components/TextArea/TextArea';
+import { languages  } from '../../../data/data';
+import Saved from '../../images/saved.svg?react'
 
 export default function TranslatePage() {
   const [selectedTab, setSelectedTab] = React.useState('auto');
   const [selectedTranslationTab, setSelectedTranslationTab] = React.useState('uz');
+  const [isLiked, setIsLiked] = React.useState(false);
+  const [lastRequest, setLastRequest] = React.useState({});
   function handleTabClick(index) {
     setSelectedTab(index)
+  }
+  function handleSaveClick() {
+   if (!outputText.current.value) {
+    alert('You must translate something before you can save it');
+    return;
+   }
+   const saved = JSON.parse(localStorage.getItem('saved')) || [];
+   const liked = {
+    id: Date.now(),
+    flag: lastRequest.flag,
+    original_text: lastRequest.translation_data.original_text,
+    translation: lastRequest.translation_data.translation
+   }
+   saved.push(liked);
+   localStorage.setItem('saved', JSON.stringify(saved));
+    setIsLiked(!isLiked);
   }
   function handleTabClickSecond(index) {
     setSelectedTranslationTab(index);
@@ -142,6 +94,7 @@ export default function TranslatePage() {
       const response = await fetch(url, options);
       const result = await response.json();
       data = result;
+      setLastRequest(result);
     } catch (error) {
       console.error(error);
     }
@@ -161,11 +114,6 @@ export default function TranslatePage() {
   }
   return (
     <>
-      <header>
-        <Container maxWidth='lg'>
-          <Switch />
-        </Container>
-      </header>
       <Container maxWidth="lg">
           <div className="text-fields-wrapper">
             <Stack spacing={2}>
@@ -190,7 +138,12 @@ export default function TranslatePage() {
                   classes = 'multiline-text-field translatedText'
                   placeholder = 'Translation'
                  />
+                 <div className="icon-wrapper">
                   <MdOutlineContentCopy className={isCopied ? 'copy-button copy copy-opacity' : 'copy-button'} onClick={handleCopyClick} />
+                  <Saved 
+                    className={isLiked ? 'saved-icon filled clicked' : 'saved-icon'} 
+                    onClick={handleSaveClick} />
+                 </div>
             </Stack>  
           </div>
           <Button

@@ -1,11 +1,26 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss'
-import TranslatePage from './Components/TranslatePage/TranslatePage';
+import Switch from './Components/Switch/Switch';
+import Nav from './Components/Nav/Nav';
+import TranslatePage from './pages/TranslatePage/TranslatePage';
+import Saved from './pages/saved/saved';
+import History from './pages/History/History';
 
 function App() {
   return (
-    <>
-      <TranslatePage />
-    </>
+    <BrowserRouter>
+      <header>
+        <div className='container header__container'>
+          <Switch />
+          <Nav />
+        </div>
+      </header>
+      <Routes>
+        <Route path = '/' element = {<TranslatePage />} />
+        <Route path = '/saved' element = {<Saved />} />
+        <Route path = '/history' element = {<History />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

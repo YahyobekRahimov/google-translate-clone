@@ -1,0 +1,27 @@
+/* Nav.scss */
+
+nav {
+  }
+  
+  .header-nav {
+    list-style-type: none;
+    display: flex;
+    gap: 50px;
+    
+  
+    li {
+      font-family: 'Arial', sans-serif; /* Set your desired font family */
+      font-size: 32px; /* Set your desired font size */
+    }
+  
+    a {
+      text-decoration: none;
+      color: var(--nav-text-color); /* Set the text color for navigation links */
+      transition: color 0.3s ease-in-out;
+  
+      &:hover {
+        color: #77c9ff; /* Set the text color for hover effect */
+      }
+    }
+  }
+  

@@ -1,5 +1,4 @@
 .theme-switch-wrapper {
-    margin-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,4 +54,5 @@
     font-size: 25px;
     font-weight: 500;
     font-family: sans-serif;
+    user-select: none;
 }
