@@ -1,6 +1,26 @@
+[theme='light'] {
+    --text-color: black;
+    --bg-color: white;
+}
+
+[theme='dark'] {
+    --text-color: white;
+    --bg-color: rgb(23, 25, 53);
+}
+[theme='contrast'] {
+    --text-color: red;
+    --bg-color: rgb(7, 15, 131);
+}
+
+body {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
 .text-fields-wrapper {
     display: flex;
     align-items: start;
+    flex-direction: column;
     gap: 10px;
     margin-top: 100px;
     & > * {
@@ -12,3 +32,25 @@
     display: block!important;
     margin: 50px auto!important;
 }
+
+.copy-button {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: auto !important;
+    font-size: 30px;
+    transition: 1s transform, .5s opacity;
+    span {
+        display: inline-block;
+    }
+    &:hover {
+        fill: gray;
+    }
+    &.copy-opacity {
+        opacity: 0;
+    }
+    &.copy {
+        transform: scale(3);
+    }
+}
+
+  

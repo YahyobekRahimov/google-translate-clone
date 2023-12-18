@@ -1,0 +1,58 @@
+.theme-switch-wrapper {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-switch {
+    width: 150px;
+    height: 50px;
+    border-radius: 50px;
+    position: relative;
+    background-color: #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  /* Add box shadow to the theme switch */
+}
+
+.circle {
+    width: 45px;
+    height: 45px;
+    background-color: blueviolet;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Add box shadow to the circle ball */
+}
+
+.light {
+    left: 3%;
+    transform: translateY(-50%);
+    background-color: #f1c40f;  /* Yellow for light theme */
+}
+
+.dark {
+    background-color: #34495e;  /* Dark blue for dark theme */
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.contrast {
+    left: 67%;
+    background-color: #e74c3c;  /* Red for contrast theme */
+    transform: translateY(-50%) 
+}
+
+.theme-numbers {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    top: -54%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 25px;
+    font-weight: 500;
+    font-family: sans-serif;
+}

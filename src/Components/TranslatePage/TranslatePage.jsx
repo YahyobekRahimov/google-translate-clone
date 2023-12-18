@@ -6,55 +6,116 @@ import TabPanelToLang from '../TabPanelToLang/TabPanelToLang';
 import Button from '@mui/material/Button';
 import { TextField } from "@mui/material"
 import { useRef } from 'react';
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { MdOutlineContentCopy } from "react-icons/md";
+import Switch from '../Switch/Switch';
+import Tabs from '../Tabs/Tabs';
 
+const languages = [
+  {
+    language: 'English',
+    abbreviation: 'en'
+  },
+  {
+    language: 'Uzbek',
+    abbreviation: 'uz'
+  },
+  {
+    language: 'Russian',
+    abbreviation: 'ru'
+  },
+  {
+    language: 'Spanish',
+    abbreviation: 'es'
+  },
+  {
+    language: 'French',
+    abbreviation: 'fr'
+  },
+  {
+    language: 'German',
+    abbreviation: 'de'
+  },
+  {
+    language: 'Chinese',
+    abbreviation: 'zh'
+  },
+  {
+    language: 'Japanese',
+    abbreviation: 'ja'
+  },
+  {
+    language: 'Korean',
+    abbreviation: 'ko'
+  },
+  {
+    language: 'Arabic',
+    abbreviation: 'ar'
+  },
+  {
+    language: 'Portuguese',
+    abbreviation: 'pt'
+  },
+  {
+    language: 'Italian',
+    abbreviation: 'it'
+  },
+  {
+    language: 'Dutch',
+    abbreviation: 'nl'
+  },
+  {
+    language: 'Swedish',
+    abbreviation: 'sv'
+  },
+  {
+    language: 'Turkish',
+    abbreviation: 'tr'
+  },
+];
 
-const customTheme = (outerTheme) =>
-createTheme({
-  palette: {
-    mode: outerTheme.palette.mode,
-  },
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '--TextField-brandBorderColor': '#E0E3E7',
-          '--TextField-brandBorderHoverColor': '#B2BAC2',
-          '--TextField-brandBorderFocusedColor': '#6F7E8C',
-          '& label.Mui-focused': {
-            color: 'var(--TextField-brandBorderFocusedColor)',
-          },
-        },
-      },
-    },
-    MuiFilledInput: {
-      styleOverrides: {
-        root: {
-          '&:before, &:after': {
-            borderBottom: '2px solid var(--TextField-brandBorderColor)',
-          },
-          '&:hover:not(.Mui-disabled, .Mui-error):before': {
-            borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
-          },
-          '&.Mui-focused:after': {
-            borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',
-          },
-        },
-      },
-    }
-  },
-});
 
 export default function TranslatePage() {
-  const outerTheme = useTheme();
+  const [selectedTab, setSelectedTab] = React.useState('auto');
+  const [selectedTranslationTab, setSelectedTranslationTab] = React.useState('uz');
+  function handleTabClick(index) {
+    setSelectedTab(index)
+  }
+  function handleTabClickSecond(index) {
+    setSelectedTranslationTab(index);
+  }
+  
+  const tabs = languages.map((language, index) => {
+    const abbreviation = language.abbreviation;
+    return <li 
+      className={selectedTab == abbreviation ? 'tab selected-tab' : 'tab'}
+      onClick={() => handleTabClick(abbreviation)}  
+      key={index}  
+      value={abbreviation}
+    >{language.language}</li>
+  })
+  
+  const tabsSecond = languages.map((language, index) => {
+    const abbreviation = language.abbreviation;
+    return (
+      <li 
+    className={selectedTranslationTab == abbreviation ? 'tab selected-tab' : 'tab'}
+    onClick={() => handleTabClickSecond(abbreviation)}  
+    key={index}  
+    value={abbreviation}
+  >{language.language}</li>)
+  });
+  const detectLanguageItem = [
+  <li 
+    value='auto'
+    key='auto'
+    className={selectedTab == 'auto' ? 'tab selected-tab' : 'tab'}
+    onClick={() => handleTabClick('auto')}
+  >Detect Language</li>
+];
+  
   const inputText = useRef();
   const outputText = useRef();
-  let [fromLang, setFromLang] = React.useState('en');
-  let [toLang, setToLang] = React.useState('uz');
-  const [previousLang, setPreviousLang] = React.useState({
-    previousFromLang: 'en',
-    previousToLang: 'uz'
-  })
+  const [isCopied, setIsCopied] = React.useState(false);
 
   async function handleTranslateClick() {
     let data = '';
@@ -68,7 +129,7 @@ export default function TranslatePage() {
       },
       body: JSON.stringify({
         texte: inputText.current.value,
-        to_lang: toLang
+        to_lang: selectedTranslationTab
       })
     };
 
@@ -82,81 +143,67 @@ export default function TranslatePage() {
     console.log(data);
     outputText.current.value = data.translation_data.translation;
   }
-  // React.useEffect(() => {
-  //   console.log('UI change');
-  // })  
-  // React.useEffect(() => {
-  // }, [fromLang, toLang])
-
-  // React.useEffect(() => {
-  //   if (fromLang === toLang) {
-  //     setToLang(previousLang.previousToLang);
-  //     console.log(previousLang.previousToLang);
-  //   }
-  //   setPreviousLang({
-  //     ...previousLang,
-  //     previousFromLang: fromLang,
-  //   })
-  //   console.log(previousLang)
-  //    }, [fromLang])
-
-  // React.useEffect(() => {
-  //   if (fromLang === toLang) {
-  //     setFromLang(previousLang.previousFromLang);
-  //     console.log(previousLang.previousFromLang);
-  //   }
-  //   setPreviousLang({
-  //     ...previousLang,
-  //     previousToLang: toLang
-  //   })
-  //   console.log(previousLa)
-  //   }, [toLang])
-
+  function handleCopyClick() {
+    if (!outputText.current.value) {
+      alert('There is nothing translated')
+      return;
+    } 
+    setIsCopied(true);
+    navigator.clipboard.writeText(outputText.current.value)
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1500)
+  }
   return (
-    <Container maxWidth="xl">
-        <div className="text-fields-wrapper">
-          <Stack spacing={2}>
-            <TabPanelFromLang
-              fromLang={fromLang}
-              setFromLang={setFromLang}
-             />
-            <TextField 
-              inputRef={inputText}
-              disabled={false} 
-              margin="none" 
-              className="multiline-text-field" 
-              size="normal" 
-              minRows={3} 
-              id="inputText" 
-              variant='outlined' 
-              multiline
-               />
-          </Stack>
-          <Stack spacing={2}>
-            <TabPanelToLang
-              toLang={toLang}
-              setToLang={setToLang}
-             />
-             <ThemeProvider theme={customTheme(outerTheme)}>
+    <>
+      <header>
+        <Container maxWidth='lg'>
+          <Switch />
+        </Container>
+      </header>
+      <Container maxWidth="lg">
+          <div className="text-fields-wrapper">
+            <Stack spacing={2}>
+              <Tabs 
+                tabs={[...detectLanguageItem, ...tabs]}
+              />
               <TextField 
-                inputRef={outputText}
-                disabled={true} 
+                inputRef={inputText}
+                disabled={false} 
                 margin="none" 
                 className="multiline-text-field" 
                 size="normal" 
                 minRows={3} 
-                id="outputText" 
-                variant='filled' 
-                multiline />
-             </ThemeProvider>
-          </Stack>
-        </div>
-        <Button
-          className='translate-button'
-          onClick={handleTranslateClick}
-          size='large'
-          variant='contained'
-          >Translate</Button>
-    </Container>
+                id="inputText" 
+                variant='outlined' 
+                multiline
+                />
+            </Stack>
+            <Stack spacing={2}>
+              <Tabs 
+                tabs={[...tabsSecond]}
+                />
+                <TextField 
+                  inputRef={outputText}
+                  disabled={true} 
+                  margin="none" 
+                  className="multiline-text-field" 
+                  size="normal" 
+                  minRows={3} 
+                  id="outputText" 
+                  variant='filled' 
+                  multiline>
+                  </TextField>
+                  <MdOutlineContentCopy className={isCopied ? 'copy-button copy copy-opacity' : 'copy-button'} onClick={handleCopyClick} />
+            </Stack>  
+          </div>
+          <Button
+            className='translate-button'
+            onClick={handleTranslateClick}
+            size='large'
+            variant='contained'
+            >Translate</Button>
+      </Container>
+    </>
   )
 }
