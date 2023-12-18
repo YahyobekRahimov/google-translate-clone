@@ -3,7 +3,7 @@ import './App.scss'
 import Switch from './Components/Switch/Switch';
 import Nav from './Components/Nav/Nav';
 import TranslatePage from './pages/TranslatePage/TranslatePage';
-import Saved from './pages/saved/saved';
+import Saved from './pages/Saved/Saved';
 import History from './pages/History/History';
 
 function App() {
