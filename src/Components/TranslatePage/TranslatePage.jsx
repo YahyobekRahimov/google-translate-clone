@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { MdOutlineContentCopy } from "react-icons/md";
 import Switch from '../Switch/Switch';
 import Tabs from '../Tabs/Tabs';
+import TextArea from '../TextArea/TextArea';
 
 const languages = [
   {
@@ -118,6 +119,10 @@ export default function TranslatePage() {
   const [isCopied, setIsCopied] = React.useState(false);
 
   async function handleTranslateClick() {
+    if (!inputText.current.value) {
+      alert('You must write something to be translated')
+      return;
+    }
     let data = '';
     const url = 'https://free-google-translation.p.rapidapi.com/translate';
     const options = {
@@ -167,33 +172,24 @@ export default function TranslatePage() {
               <Tabs 
                 tabs={[...detectLanguageItem, ...tabs]}
               />
-              <TextField 
+              <TextArea
                 inputRef={inputText}
-                disabled={false} 
-                margin="none" 
-                className="multiline-text-field" 
-                size="normal" 
-                minRows={3} 
-                id="inputText" 
-                variant='outlined' 
-                multiline
-                />
+                classes='multiline-text-field'
+                id={inputText}
+                placeholder = 'Hello world!'
+               />
             </Stack>
             <Stack spacing={2}>
               <Tabs 
                 tabs={[...tabsSecond]}
                 />
-                <TextField 
-                  inputRef={outputText}
-                  disabled={true} 
-                  margin="none" 
-                  className="multiline-text-field" 
-                  size="normal" 
-                  minRows={3} 
-                  id="outputText" 
-                  variant='filled' 
-                  multiline>
-                  </TextField>
+                <TextArea
+                  inputRef = {outputText}
+                  disabled = {true}
+                  id={outputText}
+                  classes = 'multiline-text-field translatedText'
+                  placeholder = 'Translation'
+                 />
                   <MdOutlineContentCopy className={isCopied ? 'copy-button copy copy-opacity' : 'copy-button'} onClick={handleCopyClick} />
             </Stack>  
           </div>

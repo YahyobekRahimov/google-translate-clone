@@ -1,15 +1,33 @@
 [theme='light'] {
-    --text-color: black;
+    --text-color: #000000;
     --bg-color: white;
+    --text-area-bg: white;
+    --tabs-bg-color: #ecf0f1;
+    --tabs-bg-selected: #3498db;
+    --tabs-color: #333;
+    --tabs-color-selected: #fff;
+    --tabs-hover: #d6dbdf;
 }
 
 [theme='dark'] {
     --text-color: white;
     --bg-color: rgb(23, 25, 53);
+    --text-area-bg: rgb(18, 21, 58);
+    --tabs-bg-color: #2c3e50;
+    --tabs-bg-selected: #3498db;
+    --tabs-color: #ecf0f1;
+    --tabs-color-selected: #fff;
+    --tabs-hover: #1b2836;
 }
 [theme='contrast'] {
-    --text-color: red;
-    --bg-color: rgb(7, 15, 131);
+    --text-color: #fff;
+    --bg-color: #e74c3c;
+    --text-area-bg: #f13d29;
+    --tabs-bg-color: #e74c3c;
+    --tabs-bg-selected: #3498db;
+    --tabs-color: #fff;
+    --tabs-color-selected: #fff;
+    --tabs-hover: #c0392b;
 }
 
 body {
@@ -21,7 +39,7 @@ body {
     display: flex;
     align-items: start;
     flex-direction: column;
-    gap: 10px;
+    gap: 50px;
     margin-top: 100px;
     & > * {
         width: 100%;

@@ -1,0 +1,27 @@
+.TextArea-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+    textarea {
+        background-color: var(--text-area-bg);
+        font-family: 'Arial', 'Helvetica', sans-serif;
+        color: var(--text-color);
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 2rem;
+      transition: border-color 0.3s ease-in-out;
+      resize: none;
+  
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+      }
+  
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+  }
+  

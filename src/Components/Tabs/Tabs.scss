@@ -3,31 +3,23 @@
     list-style-type: none;
     font-family: sans-serif;
     width: 100%;
-    ::-webkit-scrollbar {
-        width: 5px!important;
-    }
-    ::-webkit-scrollbar-track {
-        background-color: lightgray;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: gray;
-    }
-
     li {
-        white-space: nowrap;
+      white-space: nowrap;
+      background-color: var(--tabs-bg-color);
+      color: var(--tabs-color);
       padding: 10px;
       padding-bottom: 30px;
       cursor: pointer;
       position: relative;
   
       &:hover {
-        background-color: #f1f1f1;
+        background-color: var(--tabs-hover);
       }
     }
   
     li.selected-tab {
-      background-color: #3498db;
-      color: #fff;
+      background-color: var(--tabs-bg-selected);
+      color: var(--tabs-color-selected);
       border-radius: 4px;
   
       &:after {

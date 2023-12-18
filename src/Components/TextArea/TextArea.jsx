@@ -1,9 +1,18 @@
 import './TextArea.scss';
 
-export default function TextArea() {
+export default function TextArea({disabled, placeholder, inputRef, classes, id}) {
   return (
     <div className='TextArea-wrapper'>
-        <textarea name="" id="" cols="30"  rows="10"></textarea>
+        <textarea
+            className={classes}
+            name=""
+            id={id}
+            cols="30"
+            rows="5"
+            ref={inputRef}
+            placeholder={placeholder}
+            disabled = {disabled}
+        ></textarea>
     </div>
   )
 }
